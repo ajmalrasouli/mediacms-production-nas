@@ -223,3 +223,23 @@ This deployment is based on **MediaCMS**, an open-source media management platfo
 This repository focuses on **deployment architecture, storage design, and operations**,
 and does not modify the upstream MediaCMS source code.
 
+---
+
+## 👤 About the Author
+
+This repository is maintained by an IT / Systems Engineer with hands-on experience in:
+
+- Linux system administration
+- Docker & Docker Compose
+- Storage architecture (SSD + NAS)
+- PostgreSQL & Redis operations
+- Media pipelines and background processing
+- Safe migrations and backup strategies
+- Production documentation and operational runbooks
+
+This project reflects a **real-world deployment mindset**, focusing on reliability,
+maintainability, and security rather than minimal examples.
+
+GitHub: https://github.com/ajmalrasouli
+
+
