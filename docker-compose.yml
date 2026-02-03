@@ -1,0 +1,70 @@
+services:
+  db:
+    image: postgres:16
+    container_name: MediaCMS_DB
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - mediacms_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7
+    container_name: MediaCMS_REDIS
+    restart: unless-stopped
+    volumes:
+      - mediacms_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    image: mediacms/mediacms:latest
+    container_name: MediaCMS_WEB
+    restart: unless-stopped
+    ports:
+      - "8088:80"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ${MEDIA_ROOT}:/home/mediacms.io/mediacms/media_files
+      - ${CACHE_ROOT}:/home/mediacms.io/mediacms/tmp
+
+  worker:
+    image: mediacms/mediacms:latest
+    container_name: MediaCMS_WORKER
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - web
+    volumes:
+      - ${MEDIA_ROOT}:/home/mediacms.io/mediacms/media_files
+      - ${CACHE_ROOT}:/home/mediacms.io/mediacms/tmp
+
+  beat:
+    image: mediacms/mediacms:latest
+    container_name: MediaCMS_BEAT
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - web
+
+volumes:
+  mediacms_postgres_data:
+  mediacms_redis_data:
