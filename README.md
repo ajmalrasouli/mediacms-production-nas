@@ -210,3 +210,16 @@ This repository is provided as a reference architecture and showcase. Adapt path
 ## 📄 License
 
 MIT
+
+---
+
+## 🔗 Upstream Project
+
+This deployment is based on **MediaCMS**, an open-source media management platform.
+
+- Project website: https://mediacms.io
+- Source repository: https://github.com/mediacms-io/mediacms
+
+This repository focuses on **deployment architecture, storage design, and operations**,
+and does not modify the upstream MediaCMS source code.
+
